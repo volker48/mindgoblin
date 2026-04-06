@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>MIND GOBLIN</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@700;900&family=Crimson+Pro:ital,wght@0,300;0,400;1,300&display=swap" rel="stylesheet" />
+  <style>
+    :root {
+      --acid: #7fff00;
+      --chaos: #ff3cac;
+      --brain: #c084fc;
+      --ember: #ff6b00;
+      --deep: #06040f;
+      --cave: #0d0a1a;
+      --stone: #1a1428;
+    }
+
+```
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+html { scroll-behavior: smooth; }
+
+body {
+  background-color: var(--deep);
+  color: #e8dff5;
+  font-family: 'Crimson Pro', Georgia, serif;
+  font-weight: 300;
+  overflow-x: hidden;
+  cursor: crosshair;
+}
+
+/* ── BACKGROUND ATMOSPHERE ── */
+.bg-layer {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+.bg-layer::before {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 60% at 20% 80%, rgba(127,255,0,0.07) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 20%, rgba(192,132,252,0.09) 0%, transparent 60%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(255,60,172,0.05) 0%, transparent 60%);
+  animation: breathe 8s ease-in-out infinite alternate;
+}
+.bg-layer::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='1'/%3E%3C/svg%3E");
+  opacity: 0.025;
+  background-size: 200px 200px;
+}
+@keyframes breathe {
+  from { opacity: 0.7; }
+  to   { opacity: 1; }
+}
+
+/* ── FLOATING RUNES ── */
+.runes-field {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  overflow: hidden;
+}
+.rune {
+  position: absolute;
+  font-size: 1.2rem;
+  opacity: 0;
+  animation: floatRune var(--dur, 12s) var(--delay, 0s) ease-in-out infinite;
+  color: var(--acid);
+  filter: blur(0.5px);
+  text-shadow: 0 0 8px currentColor;
+}
+@keyframes floatRune {
+  0%   { opacity: 0; transform: translateY(0) rotate(0deg); }
+  15%  { opacity: 0.4; }
+  85%  { opacity: 0.2; }
+  100% { opacity: 0; transform: translateY(-120vh) rotate(360deg); }
+}
+
+/* ── LAYOUT ── */
+.wrapper {
+  position: relative;
+  z-index: 1;
+}
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  gap: 0;
+  padding: 4rem 6vw;
+}
+
+.hero-text {
+  padding-right: 4rem;
+  animation: slideIn 1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes slideIn {
+  from { opacity: 0; transform: translateX(-40px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.eyebrow {
+  font-family: 'Crimson Pro', serif;
+  font-size: 0.85rem;
+  font-style: italic;
+  letter-spacing: 0.3em;
+  color: var(--chaos);
+  text-transform: uppercase;
+  margin-bottom: 1.2rem;
+  animation: slideIn 1s 0.1s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+h1 {
+  font-family: 'Cinzel Decorative', serif;
+  font-weight: 900;
+  font-size: clamp(3rem, 6vw, 5.5rem);
+  line-height: 0.95;
+  margin-bottom: 1.5rem;
+  animation: slideIn 1s 0.2s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+h1 .line1 { color: #fff; display: block; }
+h1 .line2 {
+  display: block;
+  background: linear-gradient(135deg, var(--acid) 0%, var(--brain) 50%, var(--chaos) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  filter: drop-shadow(0 0 20px rgba(127,255,0,0.4));
+}
+
+.tagline {
+  font-size: 1.2rem;
+  font-style: italic;
+  line-height: 1.6;
+  color: #b8a9d0;
+  margin-bottom: 2.5rem;
+  max-width: 38ch;
+  animation: slideIn 1s 0.35s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.cta-row {
+  display: flex;
+  gap: 1rem;
+  flex-wrap: wrap;
+  animation: slideIn 1s 0.45s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+
+.btn {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  padding: 0.9rem 2rem;
+  border-radius: 2px;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover { transform: translateY(-2px); }
+
+.btn-primary {
+  background: linear-gradient(135deg, var(--acid), #4dbb00);
+  color: #060a00;
+  box-shadow: 0 0 24px rgba(127,255,0,0.35);
+}
+.btn-primary:hover { box-shadow: 0 0 40px rgba(127,255,0,0.55); }
+
+.btn-ghost {
+  border: 1px solid rgba(192,132,252,0.5);
+  color: var(--brain);
+  background: rgba(192,132,252,0.07);
+}
+.btn-ghost:hover {
+  border-color: var(--brain);
+  background: rgba(192,132,252,0.15);
+  box-shadow: 0 0 20px rgba(192,132,252,0.2);
+}
+
+/* ── HERO IMAGE ── */
+.hero-image-wrap {
+  position: relative;
+  animation: imageReveal 1.2s 0.3s cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+@keyframes imageReveal {
+  from { opacity: 0; transform: scale(0.92) translateX(20px); }
+  to   { opacity: 1; transform: scale(1) translateX(0); }
+}
+
+.hero-image-wrap::before {
+  content: '';
+  position: absolute;
+  inset: -2px;
+  border-radius: 6px;
+  background: linear-gradient(135deg, var(--acid), var(--brain), var(--chaos), var(--ember));
+  z-index: -1;
+  filter: blur(16px);
+  opacity: 0.6;
+  animation: borderPulse 4s ease-in-out infinite alternate;
+}
+@keyframes borderPulse {
+  from { opacity: 0.4; filter: blur(16px); }
+  to   { opacity: 0.8; filter: blur(24px); }
+}
+
+.hero-image-wrap img {
+  width: 100%;
+  display: block;
+  border-radius: 4px;
+  border: 1px solid rgba(127,255,0,0.2);
+  position: relative;
+}
+
+.corner {
+  position: absolute;
+  width: 20px; height: 20px;
+  border-color: var(--acid);
+  border-style: solid;
+  opacity: 0.7;
+}
+.corner-tl { top: -6px; left: -6px; border-width: 2px 0 0 2px; }
+.corner-tr { top: -6px; right: -6px; border-width: 2px 2px 0 0; }
+.corner-bl { bottom: -6px; left: -6px; border-width: 0 0 2px 2px; }
+.corner-br { bottom: -6px; right: -6px; border-width: 0 2px 2px 0; }
+
+/* ── DIVIDER ── */
+.divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, var(--acid), var(--brain), var(--chaos), transparent);
+  opacity: 0.4;
+  margin: 0 6vw;
+  width: calc(100% - 12vw);
+}
+
+/* ── LORE SECTION ── */
+.lore {
+  padding: 6rem 6vw;
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+  gap: 4rem;
+  align-items: start;
+}
+
+.section-label {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.65rem;
+  letter-spacing: 0.35em;
+  color: var(--chaos);
+  text-transform: uppercase;
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  align-self: center;
+  opacity: 0.8;
+}
+
+.lore-content h2 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.6rem, 2.5vw, 2.4rem);
+  font-weight: 700;
+  margin-bottom: 1.5rem;
+  color: #fff;
+  line-height: 1.2;
+}
+
+.lore-content p {
+  font-size: 1.1rem;
+  line-height: 1.8;
+  color: #c4b5d8;
+  margin-bottom: 1.2rem;
+  max-width: 65ch;
+}
+
+/* ── POTIONS GRID ── */
+.potions {
+  padding: 4rem 6vw 6rem;
+}
+
+.potions-header {
+  text-align: center;
+  margin-bottom: 3rem;
+}
+.potions-header h2 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: clamp(1.4rem, 2.5vw, 2rem);
+  color: #fff;
+  margin-bottom: 0.5rem;
+}
+.potions-header p {
+  font-style: italic;
+  color: #9980b8;
+}
+
+.potions-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 1.5rem;
+}
+
+.potion-card {
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 4px;
+  padding: 2rem 1.5rem;
+  transition: transform 0.25s, background 0.25s, border-color 0.25s;
+  position: relative;
+  overflow: hidden;
+}
+.potion-card::before {
+  content: '';
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: var(--accent, var(--acid));
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: transform 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.potion-card:hover::before { transform: scaleX(1); }
+.potion-card:hover {
+  transform: translateY(-4px);
+  background: rgba(255,255,255,0.06);
+  border-color: rgba(255,255,255,0.14);
+}
+
+.potion-icon {
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  display: block;
+  filter: drop-shadow(0 0 10px var(--accent, var(--acid)));
+}
+.potion-card h3 {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.85rem;
+  font-weight: 700;
+  margin-bottom: 0.6rem;
+  color: #fff;
+  letter-spacing: 0.05em;
+}
+.potion-card p {
+  font-size: 0.95rem;
+  line-height: 1.65;
+  color: #9980b8;
+  font-style: italic;
+}
+
+/* ── FOOTER ── */
+footer {
+  padding: 3rem 6vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.footer-brand {
+  font-family: 'Cinzel Decorative', serif;
+  font-size: 0.9rem;
+  color: var(--acid);
+  text-shadow: 0 0 12px rgba(127,255,0,0.4);
+}
+
+footer p {
+  font-size: 0.85rem;
+  font-style: italic;
+  color: #5a4d6e;
+}
+
+/* ── CURSOR SPARK ── */
+.spark {
+  position: fixed;
+  pointer-events: none;
+  width: 6px; height: 6px;
+  border-radius: 50%;
+  z-index: 9999;
+  mix-blend-mode: screen;
+  animation: sparkFade 0.6s forwards;
+}
+@keyframes sparkFade {
+  0%   { opacity: 1; transform: scale(1) translate(-50%, -50%); }
+  100% { opacity: 0; transform: scale(0) translate(-50%, -50%); }
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 768px) {
+  .hero {
+    grid-template-columns: 1fr;
+    padding: 3rem 5vw;
+    text-align: center;
+  }
+  .hero-text { padding-right: 0; order: 2; }
+  .hero-image-wrap { order: 1; }
+  .tagline { max-width: 100%; margin-left: auto; margin-right: auto; }
+  .cta-row { justify-content: center; }
+  .lore { grid-template-columns: 1fr; gap: 2rem; }
+  .section-label { writing-mode: horizontal-tb; transform: none; }
+}
+```
+
+  </style>
+</head>
+<body>
+
+  <!-- BG ATMOSPHERE -->
+
+  <div class="bg-layer"></div>
+
+  <!-- FLOATING RUNES -->
+
+  <div class="runes-field" id="runes"></div>
+
+  <div class="wrapper">
+
+```
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-text">
+    <p class="eyebrow">⚗ Chaotic Intelligence Distilled</p>
+    <h1>
+      <span class="line1">MIND</span>
+      <span class="line2">GOBLIN</span>
+    </h1>
+    <p class="tagline">
+      Where raw ideas ignite, potions bubble with forbidden knowledge,
+      and every thought spawns three more unhinged ones.
+    </p>
+    <div class="cta-row">
+      <a href="#lore" class="btn btn-primary">Enter the Cave</a>
+      <a href="#potions" class="btn btn-ghost">Browse Potions</a>
+    </div>
+  </div>
+
+  <div class="hero-image-wrap">
+    <div class="corner corner-tl"></div>
+    <div class="corner corner-tr"></div>
+    <div class="corner corner-bl"></div>
+    <div class="corner corner-br"></div>
+    <img src="IMG_6017.png" alt="The Mind Goblin, wielding a glowing brain and surrounded by chaos potions" />
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- LORE -->
+<section class="lore" id="lore">
+  <span class="section-label">Lore & Legend</span>
+  <div class="lore-content">
+    <h2>From the Depths of the Idea Cave</h2>
+    <p>
+      The Mind Goblin was not born — it <em>erupted</em>. Deep beneath the mushroom groves
+      and glowing rune-walls, something ancient and chaotic stirred in the dark and decided,
+      for reasons known only to itself, that ideas were the most dangerous thing in the world.
+    </p>
+    <p>
+      Armed with an "Idea Potion" in one claw and a "Chaos Spark" in the other, the Goblin
+      has since haunted the intersection of brilliant and unhinged — conjuring thoughts that
+      are equal parts genius and catastrophe.
+    </p>
+    <p>
+      Whether it's a solution to a problem nobody asked about, a potion brewed at 3am,
+      or a plan that makes complete sense if you don't think too hard about it —
+      this is the domain of the Mind Goblin.
+    </p>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- POTIONS -->
+<section class="potions" id="potions">
+  <div class="potions-header">
+    <h2>The Goblin's Arsenal</h2>
+    <p>Potions, sparks, and forbidden concoctions from the cave shelf</p>
+  </div>
+  <div class="potions-grid">
+    <div class="potion-card" style="--accent: #7fff00;">
+      <span class="potion-icon">🧪</span>
+      <h3>Idea Potion</h3>
+      <p>One sip and three hundred thoughts arrive simultaneously. No refunds. Side effects include staying up until dawn.</p>
+    </div>
+    <div class="potion-card" style="--accent: #ff3cac;">
+      <span class="potion-icon">⚡</span>
+      <h3>Chaos Spark</h3>
+      <p>Ignites creative destruction. Best applied to stale plans, boring meetings, and anything that could stand to be a little more unpredictable.</p>
+    </div>
+    <div class="potion-card" style="--accent: #c084fc;">
+      <span class="potion-icon">🧠</span>
+      <h3>Brain Orb</h3>
+      <p>A sentient, glowing mass of pure cognition. Do not drop. Do not feed after midnight. Do not ask where it came from.</p>
+    </div>
+    <div class="potion-card" style="--accent: #ff6b00;">
+      <span class="potion-icon">🍄</span>
+      <h3>Cave Fungi</h3>
+      <p>Bioluminescent. Mildly prophetic. The Goblin uses them as ambient lighting and, occasionally, as an oracle.</p>
+    </div>
+    <div class="potion-card" style="--accent: #00e5ff;">
+      <span class="potion-icon">📜</span>
+      <h3>Ancient Scrolls</h3>
+      <p>Illegible to most. The Goblin reads them upside-down, at speed, and then ignores half of what's written.</p>
+    </div>
+    <div class="potion-card" style="--accent: #ffeb3b;">
+      <span class="potion-icon">✨</span>
+      <h3>Rune Magic</h3>
+      <p>Glowing sigils scattered throughout the cave. Their meaning shifts depending on how long you stare at them.</p>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="footer-brand">⚗ MIND GOBLIN</div>
+  <p>mindgoblin.pw — Chaotic by design. Brilliant by accident.</p>
+</footer>
+```
+
+  </div>
+
+  <script>
+    // ── FLOATING RUNES ──
+    const RUNES = ['ᚠ','ᚢ','ᚦ','ᚨ','ᚱ','ᚲ','ᚷ','ᚹ','ᚺ','ᚾ','ᛁ','ᛃ','ᛇ','ᛈ','ᛉ','ᛊ','ᛏ','ᛒ','ᛖ','ᛗ','ᛚ','ᛜ','ᛞ','ᛟ'];
+    const COLORS = ['#7fff00','#ff3cac','#c084fc','#ff6b00','#00e5ff'];
+    const runesField = document.getElementById('runes');
+
+    function spawnRune() {
+      const el = document.createElement('span');
+      el.className = 'rune';
+      el.textContent = RUNES[Math.floor(Math.random() * RUNES.length)];
+      el.style.left = Math.random() * 100 + 'vw';
+      el.style.bottom = '-2rem';
+      el.style.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      el.style.setProperty('--dur', (10 + Math.random() * 10) + 's');
+      el.style.setProperty('--delay', (Math.random() * 4) + 's');
+      el.style.fontSize = (0.8 + Math.random() * 1.2) + 'rem';
+      runesField.appendChild(el);
+      setTimeout(() => el.remove(), 25000);
+    }
+
+    for (let i = 0; i < 18; i++) setTimeout(spawnRune, i * 400);
+    setInterval(spawnRune, 1200);
+
+    // ── CURSOR SPARKS ──
+    document.addEventListener('mousemove', (e) => {
+      if (Math.random() > 0.85) {
+        const spark = document.createElement('div');
+        spark.className = 'spark';
+        spark.style.left = e.clientX + 'px';
+        spark.style.top = e.clientY + 'px';
+        spark.style.background = COLORS[Math.floor(Math.random() * COLORS.length)];
+        spark.style.boxShadow = `0 0 6px ${spark.style.background}`;
+        document.body.appendChild(spark);
+        setTimeout(() => spark.remove(), 600);
+      }
+    });
+
+    // ── SCROLL FADE IN ──
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          e.target.style.opacity = '1';
+          e.target.style.transform = 'translateY(0)';
+        }
+      });
+    }, { threshold: 0.1 });
+
+    document.querySelectorAll('.potion-card, .lore-content').forEach(el => {
+      el.style.opacity = '0';
+      el.style.transform = 'translateY(24px)';
+      el.style.transition = 'opacity 0.7s ease, transform 0.7s ease';
+      observer.observe(el);
+    });
+  </script>
+
+</body>
+</html>
